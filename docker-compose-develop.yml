@@ -1,0 +1,16 @@
+version: '3.4'
+services:
+  itco.ids.develop:
+    image: '${DOCKER_REGISTRY-}itco-ids-develop'
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: itco-ids-develop
+    environment:
+      - DockerConfiguration__UpdateCaCertificate=true
+      - ASPNETCORE_ENVIRONMENT=Development
+
+networks:
+  default:
+    external:
+      name: itco-develop

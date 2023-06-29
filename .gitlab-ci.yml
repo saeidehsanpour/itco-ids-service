@@ -1,0 +1,42 @@
+image: docker
+
+services:
+  - docker:dind
+
+stages:
+  - test
+  - deploy
+
+test:
+  stage: test
+  only:
+    - production
+    - develop
+  script:
+    - echo run tests in this section
+
+step-deploy-develop:
+  stage: deploy
+  only:
+    - develop
+  script:
+    - sudo apt-get install -y python3-pip
+    - pip install docker-compose
+    - cp $SECRET_DEV  ./CaterSoft.SettingManagement.Host.GraphQl/appsettings.Development.json
+    - cp $SECRET_DEV  ./CaterSoft.SettingManagement.Host.GraphQl/appsettings.json
+    - docker-compose -f docker-compose-develop.yml build --no-cache itco.setting.develop
+    - docker-compose -f docker-compose-develop.yml up -d --force-recreate itco.setting.develop
+  environment: DEVELOPMENT
+
+step-deploy-prdoction:
+  stage: deploy
+  only:
+    - production
+  script:
+    - sudo apt-get install -y python3-pip
+    - pip install docker-compose
+    - cp $SECRET_PROD  ./CaterSoft.SettingManagement.Host.GraphQl/appsettings.Development.json
+    - cp $SECRET_PROD  ./CaterSoft.SettingManagement.Host.GraphQl/appsettings.json
+    - docker-compose -f docker-compose-production.yml build --no-cache itco.setting.production
+    - docker-compose -f docker-compose-production.yml up -d --force-recreate itco.setting.production
+  environment: PRODUCTION

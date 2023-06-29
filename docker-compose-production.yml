@@ -1,0 +1,16 @@
+version: '3.4'
+services:
+  itco.ids.production:
+    image: '${DOCKER_REGISTRY-}itco-ids-production'
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: itco-ids-production
+    environment:
+      - DockerConfiguration__UpdateCaCertificate=true
+      - ASPNETCORE_ENVIRONMENT=Production
+
+networks:
+  default:
+    external:
+      name: itco-production
