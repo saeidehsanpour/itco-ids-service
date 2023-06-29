@@ -9,6 +9,8 @@ services:
     environment:
       - DockerConfiguration__UpdateCaCertificate=true
       - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - 127.0.0.1:42001:80
 
 networks:
   default:
